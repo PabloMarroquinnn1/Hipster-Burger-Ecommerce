@@ -1,0 +1,251 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens ported from design-reference/DESIGN.md ("Sizzle & Smolder").
+ * Tailwind v4 reads custom design tokens straight from this @theme block —
+ * there is no tailwind.config.ts in this project.
+ */
+@theme inline {
+  /* Fonts are resolved from the CSS variables next/font sets on <html>
+     (see src/app/layout.tsx) — must stay "inline" so Tailwind doesn't try
+     to resolve them at build time. */
+  --font-heading: var(--font-heading-sans), sans-serif;
+  --font-body: var(--font-body-sans), sans-serif;
+  --font-label: var(--font-label-sans), sans-serif;
+}
+
+@theme {
+  /* Brand colors */
+  --color-primary: #b7102a;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #db313f;
+
+  --color-secondary: #5f5e5e;
+  --color-on-secondary: #ffffff;
+
+  --color-tertiary: #5a5c5c;
+  --color-on-tertiary: #ffffff;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+
+  /* Surfaces */
+  --color-background: #f9f9f9;
+  --color-surface: #f9f9f9;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f3f3;
+  --color-surface-container: #eeeeee;
+  --color-surface-container-high: #e8e8e8;
+  --color-surface-variant: #e2e2e2;
+  --color-inverse-surface: #2f3131;
+  --color-inverse-on-surface: #f1f1f1;
+
+  /* Ink & outlines */
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #5b403f;
+  --color-outline: #8f6f6e;
+  --color-outline-variant: #e4bebc;
+
+  /* Warm neutral accent (from the Claude Design synthesis, used in Feature 5) */
+  --color-cream: #f7f4ef;
+
+  /* Type scale */
+  --text-display-xl: 120px;
+  --text-display-xl--line-height: 100px;
+  --text-display-xl--letter-spacing: -0.02em;
+
+  --text-headline-lg: 64px;
+  --text-headline-lg--line-height: 60px;
+  --text-headline-lg--letter-spacing: 0.02em;
+
+  --text-headline-lg-mobile: 48px;
+  --text-headline-lg-mobile--line-height: 44px;
+
+  --text-headline-md: 32px;
+  --text-headline-md--line-height: 32px;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+
+  --text-label-bold: 14px;
+  --text-label-bold--line-height: 16px;
+  --text-label-bold--font-weight: 700;
+
+  --text-label-mono: 12px;
+  --text-label-mono--line-height: 14px;
+  --text-label-mono--font-weight: 500;
+
+  /* Radius */
+  --radius: 0.5rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  /* Layout spacing */
+  --spacing-gutter: 24px;
+  --spacing-margin-mobile: 16px;
+  --spacing-margin-desktop: 64px;
+  --spacing-asymmetric-offset: 32px;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-on-surface);
+  overflow-x: hidden;
+}
+
+/* Grain overlay: subtle noise texture over the whole viewport, non-interactive */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%25" height="100%25" filter="url(%23n)" opacity="0.08"/></svg>');
+  mix-blend-mode: multiply;
+}
+
+/*
+ * Hard shadows: solid offsets, no blur — the "paper cutout" look from DESIGN.md.
+ * Declared with @utility (not a plain class) so Tailwind's variants compile,
+ * e.g. `hover:hard-shadow-red` — a plain CSS class would silently no-op there.
+ */
+@utility hard-shadow {
+  box-shadow: 8px 8px 0px 0px var(--color-on-surface);
+}
+@utility hard-shadow-lg {
+  box-shadow: 12px 12px 0px 0px var(--color-on-surface);
+}
+@utility hard-shadow-red {
+  box-shadow: 6px 6px 0px 0px var(--color-primary);
+}
+
+/* Tilt system: occasional rotation to break the grid, per DESIGN.md's "Tilt Rule" */
+.tilt-slight {
+  transform: rotate(-3deg);
+}
+.tilt-slight-right {
+  transform: rotate(3deg);
+}
+.tilt-heavy {
+  transform: rotate(-7deg);
+}
+.tilt-heavy-right {
+  transform: rotate(7deg);
+}
+
+/* Primary CTA: "duct tape" clipped button */
+.duct-tape-btn {
+  clip-path: polygon(3% 1%, 98% 2%, 97% 98%, 1% 97%);
+  transition: all 0.2s;
+}
+.duct-tape-btn:hover {
+  transform: scale(1.05) rotate(-2deg);
+}
+.duct-tape-btn:active {
+  transform: scale(0.95);
+}
+
+/* Stencil badge: promo/category stickers */
+.stencil-badge {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  border: 4px solid currentColor;
+  transform: rotate(-5deg);
+  letter-spacing: 0.15em;
+  box-shadow: 4px 4px 0px currentColor;
+}
+
+/* Price medallion: circular double-ring badge, from the Claude Design synthesis */
+.price-medallion {
+  box-shadow:
+    0 0 0 3px var(--color-surface-container-lowest),
+    0 0 0 6px var(--color-on-surface);
+}
+
+/* --- Hero (Feature 2) --- */
+
+/* Chromatic aberration on hover, from Stitch's glitch-hover */
+.glitch-hover {
+  position: relative;
+  display: inline-block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .glitch-hover:hover {
+    animation: chromatic 0.2s infinite;
+  }
+}
+@keyframes chromatic {
+  0% { text-shadow: -4px 0px #00ffff, 4px 0px #ff00ff; transform: translate(0, 0); }
+  33% { text-shadow: 4px 0px #00ffff, -4px 0px #ff00ff; transform: translate(1px, -1px); }
+  66% { text-shadow: -2px 2px #00ffff, 2px -2px #ff00ff; transform: translate(-1px, 1px); }
+  100% { text-shadow: -4px 0px #00ffff, 4px 0px #ff00ff; transform: translate(0, 0); }
+}
+
+/* Constant float for the static (reduced-motion / no-3D) hero fallback */
+@keyframes floatEffect {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-10px) rotate(-7deg); }
+}
+.float-constant {
+  animation: floatEffect 4s ease-in-out infinite;
+}
+
+/* CTA pulse + shine sweep */
+@keyframes pulseCTA {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+.pulse-cta {
+  animation: pulseCTA 2s infinite;
+}
+.cta-shine {
+  position: absolute;
+  inset: 0 auto 0 -60%;
+  width: 45%;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transition: left 0.6s ease;
+}
+.cta-shine-trigger:hover .cta-shine {
+  left: 115%;
+}
+
+/* Scroll cue bounce */
+@keyframes scrollCue {
+  0% { transform: translateY(0); opacity: 0.35; }
+  45% { transform: translateY(9px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 0.35; }
+}
+.scroll-cue {
+  animation: scrollCue 2.1s ease-in-out infinite;
+}
+
+/* Marquee ticker */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 22s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-constant,
+  .pulse-cta,
+  .scroll-cue,
+  .marquee-track {
+    animation: none;
+  }
+}
