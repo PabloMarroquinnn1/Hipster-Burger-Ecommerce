@@ -1,0 +1,561 @@
+<!DOCTYPE html><html class="light" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>SMASHED BURGER CO.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Space+Grotesk:wght@500;700&amp;family=Work+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1a1c1c",
+                        "on-primary-container": "#fffbff",
+                        "primary-fixed": "#ffdad8",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "primary-container": "#db313f",
+                        "inverse-surface": "#2f3131",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#92001c",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-tertiary-container": "#fcfcfc",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-dim": "#dadada",
+                        "on-background": "#1a1c1c",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface": "#f9f9f9",
+                        "tertiary-container": "#737575",
+                        "on-secondary-fixed-variant": "#474746",
+                        "surface-container": "#eeeeee",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#ffb3b1",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "secondary": "#5f5e5e",
+                        "surface-container-highest": "#e2e2e2",
+                        "outline": "#8f6f6e",
+                        "surface-tint": "#bb152c",
+                        "on-primary-fixed": "#410007",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f9f9f9",
+                        "on-secondary-container": "#636262",
+                        "surface-container-low": "#f3f3f3",
+                        "inverse-primary": "#ffb3b1",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-surface-variant": "#5b403f",
+                        "surface-variant": "#e2e2e2",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#e2dfde",
+                        "tertiary": "#5a5c5c",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e8e8e8",
+                        "outline-variant": "#e4bebc",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-error-container": "#93000a",
+                        "primary": "#b7102a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "asymmetric-offset": "32px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-mono": ["Space Grotesk"],
+                        "body-lg": ["Work Sans"],
+                        "headline-md": ["Bebas Neue"],
+                        "display-xl": ["Bebas Neue"],
+                        "body-md": ["Work Sans"],
+                        "headline-lg": ["Bebas Neue"],
+                        "label-bold": ["Space Grotesk"],
+                        "headline-lg-mobile": ["Bebas Neue"]
+                    },
+                    "fontSize": {
+                        "label-mono": ["12px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "32px", "fontWeight": "400" }],
+                        "display-xl": ["120px", { "lineHeight": "100px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["64px", { "lineHeight": "60px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+                        "label-bold": ["14px", { "lineHeight": "16px", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["48px", { "lineHeight": "44px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { 
+            background-color: #f9f9f9; 
+            overflow-x: hidden; 
+        }
+        
+        /* Grain overlay */
+        .grain-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.08"/></svg>');
+            mix-blend-mode: multiply;
+        }
+
+        /* Hard shadows */
+        .hard-shadow { box-shadow: 8px 8px 0px 0px rgba(26,28,28,1); }
+        .hard-shadow-lg { box-shadow: 12px 12px 0px 0px rgba(26,28,28,1); }
+        .hard-shadow-red { box-shadow: 6px 6px 0px 0px rgba(183,16,42,1); }
+        
+        /* Gritty elements */
+        .tilt-slight { transform: rotate(-3deg); }
+        .tilt-slight-right { transform: rotate(3deg); }
+        .tilt-heavy { transform: rotate(-7deg); }
+        .tilt-heavy-right { transform: rotate(7deg); }
+
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+        .cart-open { transform: translateX(0%); }
+        .cart-closed { transform: translateX(100%); }
+
+        /* Duct tape buttons */
+        .duct-tape-btn {
+            background-color: #bb152c;
+            color: #ffffff;
+            border: none;
+            clip-path: polygon(3% 1%, 98% 2%, 97% 98%, 1% 97%);
+            text-transform: uppercase;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            padding: 12px 24px;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .duct-tape-btn:hover {
+            background-color: #1a1c1c;
+            transform: scale(1.05) rotate(-2deg);
+        }
+        .duct-tape-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 15px rgba(183, 16, 42, 0.8);
+        }
+
+        /* Chromatic aberration & Glitch */
+        .glitch-hover {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch-hover:hover {
+            animation: chromatic 0.2s infinite;
+        }
+        @keyframes chromatic {
+            0% { text-shadow: -4px 0px #00ffff, 4px 0px #ff00ff; transform: translate(0,0); }
+            33% { text-shadow: 4px 0px #00ffff, -4px 0px #ff00ff; transform: translate(1px,-1px); }
+            66% { text-shadow: -2px 2px #00ffff, 2px -2px #ff00ff; transform: translate(-1px,1px); }
+            100% { text-shadow: -4px 0px #00ffff, 4px 0px #ff00ff; transform: translate(0,0); }
+        }
+
+        /* Entrance Glitch */
+        @keyframes glitchIn {
+            0% { clip-path: inset(100% 0 0 0); transform: translate(-20px, 10px) skewX(50deg); opacity: 0; }
+            20% { clip-path: inset(0 0 80% 0); transform: translate(20px, -10px) skewX(-50deg); opacity: 1; text-shadow: -4px 0px #00ffff, 4px 0px #ff00ff; }
+            40% { clip-path: inset(40% 0 20% 0); transform: translate(-10px, 5px) skewX(20deg); text-shadow: 4px 0px #00ffff, -4px 0px #ff00ff; }
+            60% { clip-path: inset(10% 0 60% 0); transform: translate(10px, -5px) skewX(-20deg); text-shadow: -2px 2px #00ffff, 2px -2px #ff00ff; }
+            80% { clip-path: inset(80% 0 0 0); transform: translate(-5px, 2px) skewX(10deg); text-shadow: 4px 0px #00ffff, -4px 0px #ff00ff; }
+            100% { clip-path: inset(0 0 0 0); transform: translate(0, 0) skewX(0); opacity: 1; text-shadow: none; }
+        }
+        .glitch-entrance {
+            animation: glitchIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        /* Floating effect */
+        @keyframes floatEffect {
+            0%, 100% { transform: translateY(0) rotate(-8deg); }
+            50% { transform: translateY(-10px) rotate(-7deg); }
+        }
+        .float-constant {
+            animation: floatEffect 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulseCTA {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .pulse-cta {
+            animation: pulseCTA 2s infinite;
+        }
+
+        /* Card Parallax */
+        .card-image-container {
+            perspective: 1000px;
+        }
+        .card-image {
+            transition: transform 0.3s ease-out;
+            transform-style: preserve-3d;
+        }
+        .card-container:hover .card-image {
+            transform: scale(1.05) translateZ(20px) rotateX(5deg) rotateY(-5deg);
+        }
+
+        /* Urban Distressed Texture */
+        .urban-texture {
+            position: relative;
+        }
+        .urban-texture::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.05"/></svg>');
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        /* Stencil Badges */
+        .stencil-badge {
+            font-family: 'Space Grotesk', sans-serif;
+            text-transform: uppercase;
+            border: 4px solid currentColor;
+            padding: 4px 12px;
+            display: inline-block;
+            transform: rotate(-5deg);
+            background: #1a1c1c;
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: 2px;
+            box-shadow: 4px 4px 0px currentColor;
+        }
+
+        /* Tape effect */
+        .tape-effect::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            width: 100px;
+            height: 25px;
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        
+        .bg-brick {
+            background-image: linear-gradient(rgba(183, 16, 42, 0.8), rgba(26, 28, 28, 0.9)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCuO7ZfwVPIE2yEEaZH745H95b9TvuBioqG0VFakNhgWPdiKfSHsOiVsydMHzLClSfu6pSTLqTWZPH_-Mmm8BqNEYra3-P6c7PYDmDig55ZxaGvFtxjqWHF2GFq7KnMliDrK5iAUvIqaT15WoyYfvEJWfMNCsZM7kByWae53XjcPU1N-AQEe1n8OuY1booWHtFd5W_YQd8OqnZ379bMEIjbe1mTVS3IGBGldlSpS2_W_kLs8weAc7kY');
+            background-size: cover;
+            background-position: center;
+        }
+
+    </style>
+</head>
+<body class="font-body-md text-body-md text-on-surface">
+<div class="grain-overlay"></div>
+<!-- Cart Drawer -->
+<div class="fixed top-0 right-0 h-full w-80 bg-surface dark:bg-inverse-surface border-l-4 border-on-surface shadow-[-8px_0px_0px_0px_rgba(183,16,42,1)] z-[100] transition-transform duration-300 cart-closed flex flex-col py-8 gap-4 px-4" id="cart-drawer">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface uppercase glitch-hover">TU ORDEN</h2>
+<button class="text-on-surface hover:text-primary transition-colors" id="close-cart">
+<span class="material-symbols-outlined text-3xl">close</span>
+</button>
+</div>
+<div class="flex-grow overflow-y-auto flex flex-col gap-4" id="cart-items">
+<!-- Cart items will be injected here via JS -->
+<div class="text-center text-surface-variant font-label-mono italic mt-10">Tu carrito está vacío</div>
+</div>
+<div class="mt-auto border-t-4 border-on-surface pt-4">
+<div class="flex justify-between items-center mb-4 font-headline-md text-headline-md">
+<span class="">TOTAL:</span>
+<span id="cart-total" class="">Q0</span>
+</div>
+<button class="w-full duct-tape-btn hard-shadow hover:shadow-none transition-all text-xl py-4">
+                PAGAR AHORA
+            </button>
+</div>
+</div>
+<!-- Overlay for cart -->
+<div class="fixed inset-0 bg-on-surface/80 z-[90] hidden transition-opacity" id="cart-overlay"></div>
+<!-- Header (Shared Component) -->
+<header class="w-full sticky top-0 z-50 bg-surface dark:bg-on-surface border-b-6 border-on-surface dark:border-primary shadow-[8px_8px_0px_0px_rgba(26,28,28,1)] flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4">
+<button class="text-on-surface dark:text-surface-variant hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+<div class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary tracking-widest uppercase glitch-hover cursor-default">
+            SMASHED
+        </div>
+<button class="text-on-surface dark:text-surface-variant hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all relative" id="open-cart">
+<span class="material-symbols-outlined text-3xl">shopping_bag</span>
+<span class="absolute -top-2 -right-2 bg-primary text-on-primary text-xs w-6 h-6 flex items-center justify-center rounded-none border-2 border-on-surface font-label-bold hidden tilt-slight-right" id="cart-count">0</span>
+</button>
+</header>
+<!-- Hero Section -->
+<section class="relative w-full h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden border-b-8 border-on-surface bg-surface">
+<div class="absolute inset-0 z-0">
+
+</div>
+<div class="relative z-10 flex flex-col items-center justify-center pointer-events-none w-full h-full">
+<div class="z-20 text-center flex flex-col items-center justify-center gap-6 pointer-events-auto">
+<h1 class="font-display-xl text-display-xl text-on-primary tracking-tighter drop-shadow-[12px_12px_0_rgba(26,28,28,1)] float-constant transform-gpu glitch-entrance">SMASHED</h1>
+<button class="duct-tape-btn text-2xl hard-shadow-lg hover:hard-shadow-red pulse-cta" id="hero-cta">
+                    ORDENAR AHORA
+                </button>
+</div>
+</div>
+<!-- Decorative Badge -->
+<div class="absolute bottom-10 right-10 bg-on-surface text-on-primary font-label-bold text-label-bold px-4 py-2 tilt-heavy-right z-20 hard-shadow border-4 border-primary uppercase tracking-widest">
+            EST. 2024
+        </div>
+</section>
+<!-- Menu Section -->
+<section class="py-margin-desktop px-margin-mobile md:px-margin-desktop bg-brick relative z-10" id="menu-section">
+<div class="mb-12 flex justify-between items-end border-b-8 pb-4 tilt-slight border-on-surface">
+<h2 class="font-headline-lg text-headline-lg uppercase m-0 leading-none glitch-hover text-primary">NUESTRO MENÚ</h2>
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase hidden md:inline-block bg-primary text-on-primary px-2 py-1 hard-shadow tilt-slight-right border-2 border-on-primary">Puro Sabor. Cero Bull.</span>
+</div>
+<div class="menu-grid">
+<!-- Doble Doble -->
+<div class="card-container bg-surface-container-lowest border-6 border-on-surface p-4 relative group transition-transform duration-300 hard-shadow anime-item tilt-slight-right urban-texture" style="opacity: 1; transform: translateX(0px) rotate(3deg);">
+<div class="absolute -top-4 -left-4 z-20">
+<span class="stencil-badge text-on-surface bg-surface border-on-surface">CLASSIC</span>
+</div>
+<div class="h-48 w-full bg-surface-container mb-4 overflow-hidden border-4 border-on-surface relative card-image-container flex items-center justify-center">
+<img class="w-full h-full object-cover card-image filter contrast-125 saturate-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeaUF8eoWnwTia6qFF2IatQeg8GmmRalLvvHrQOIyRBeaJt89wSdG2qX2xxqwHVbYu1A8zFhz2RNWaUqLeo1WgUnbMY9zpF_mjFtlsn0WVv92gWxpU_JPT9lOeusgd6YL7dfYDv7qejlhPpmQevXq9a52VvVAUv5yRseX0n_9GLIGMd1fZ7YcEEtGJB8yP-9VhsdGs4WWYMKAJsekEI9mgt3qIyqWNZujv7QGQj5ff6s05Iz3HyhP1dvUkAWr1tqBePg">
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md uppercase glitch-hover flex items-center gap-2">
+                        DOBLE DOBLE
+                    </h3>
+<span class="bg-on-surface text-on-primary font-headline-md px-3 py-1 border-2 border-primary hard-shadow tilt-heavy-right">Q40</span>
+</div>
+<p class="font-body-md text-body-md text-secondary mb-4 h-12 overflow-hidden font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">lunch_dining</span>
+                    Dos carnes smash, doble queso, salsa especial.
+                </p>
+<button class="add-to-cart w-full duct-tape-btn hard-shadow mt-2 hover:hard-shadow-red" data-id="1" data-name="DOBLE DOBLE" data-price="40">
+                    AGREGAR AL CART
+                </button>
+</div>
+<!-- La Trama -->
+<div class="card-container bg-on-surface text-on-primary border-6 border-primary p-4 relative group transition-transform duration-300 hard-shadow tilt-slight anime-item mt-4 md:mt-0 urban-texture" style="opacity: 1; transform: translateX(0px) rotate(-3deg);">
+<div class="absolute -top-6 -left-6 bg-primary text-on-primary font-label-bold px-4 py-2 rotate-[-15deg] border-4 border-on-surface z-20 hard-shadow flex items-center gap-1">
+<span class="material-symbols-outlined text-lg">local_fire_department</span>
+                    ¡FAVORITO!
+                </div>
+<div class="h-48 w-full bg-surface-variant mb-4 overflow-hidden border-4 border-primary relative card-image-container flex items-center justify-center">
+<img class="w-full h-full object-cover card-image filter contrast-125 saturate-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrN4NT_KWQgcloVPdnhLeGffURUqT0IycqJFFJW_prgcVJSi9VtT0p9M-rVyOWDXXpK1Dqjftyc6KaItg13hAULX8xRCS7DiG_WRhXxRit822S9N4Ybry9A-G7OUCC_ET1SbBkjDdezaEnL3VTVkyMFVHUOax4goyRwuw6kvwhKADnuQR4D8dViZqvEEuHYeeEXy_g1Q4G0Qt76_NHLWcxy6QdEuuPW62m5KqOOQ3jTyk93j7DPq7TZRPUUIn8pEAnBA">
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md uppercase text-primary glitch-hover">LA TRAMA</h3>
+<span class="bg-surface text-on-surface font-headline-md px-3 py-1 border-2 border-primary hard-shadow tilt-heavy">Q45</span>
+</div>
+<p class="font-body-md text-body-md text-surface-container opacity-90 mb-4 h-12 overflow-hidden font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">kebab_dining</span>
+                    Especial con tocino crujiente y queso en exceso.
+                </p>
+<button class="add-to-cart w-full duct-tape-btn hard-shadow mt-2 hover:hard-shadow-red" data-id="6" data-name="LA TRAMA" data-price="45" style="background-color: #f9f9f9; color: #1a1c1c;">
+                    AGREGAR AL CART
+                </button>
+</div>
+<!-- Bacon Cheese -->
+<div class="card-container bg-surface-container-lowest border-6 border-on-surface p-4 relative group transition-transform duration-300 hard-shadow anime-item tilt-heavy-right urban-texture" style="opacity: 1; transform: translateX(0px) rotate(7deg);">
+<div class="absolute -top-4 -left-4 z-20">
+<span class="stencil-badge text-primary bg-surface border-primary">BACON</span>
+</div>
+<div class="h-48 w-full bg-surface-container mb-4 overflow-hidden border-4 border-on-surface relative flex items-center justify-center card-image-container">
+<img class="w-full h-full object-cover filter contrast-125 saturate-50 card-image" data-alt="A close up food photography shot of a delicious bacon cheeseburger with crispy edges, melting yellow cheese, and thick cut bacon strips on a toasted brioche bun, set against a stark white background with hard black shadows, raw urban diner style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPqyvVHWiED0fb2utl4MmMZoJsWBZ4lnW5cX04nW36RYqgGMDPdPUh7-nNvJ3HKDPmNXmpzC1cbkJTy5QnTN3FLiw4lre3xWCFjcHmxsgNTeCbLXNoCEPDU1N4IWb90hkGuR1CgZiINXXVkPWc3XJqYJuVMr7q3d1GjVA1Lh8f967wSN29Prh05piAOph9fHtCFQATVv0PV8_r5F1ruiJSia9F8dIiD0Cfl-WpdJeJ1SYMVxvOyfPm">
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md uppercase glitch-hover">BACON CHEESE</h3>
+<span class="bg-on-surface text-on-primary font-headline-md px-3 py-1 border-2 border-primary hard-shadow tilt-slight">Q32</span>
+</div>
+<p class="font-body-md text-body-md text-secondary mb-4 h-12 overflow-hidden font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">local_pizza</span>
+                    Smash simple, queso, tocino grueso.
+                </p>
+<button class="add-to-cart w-full mt-2 duct-tape-btn hard-shadow hover:hard-shadow-red" data-id="2" data-name="BACON CHEESE" data-price="32">AGREGAR AL CART</button>
+</div>
+<!-- Torito -->
+<div class="card-container bg-surface-container-lowest border-6 border-on-surface p-4 relative group transition-transform duration-300 hard-shadow anime-item tilt-heavy mt-8 md:mt-0 urban-texture" style="opacity: 1; transform: translateX(0px) rotate(-7deg);">
+<div class="absolute -top-4 -left-4 z-20">
+<span class="stencil-badge text-error bg-surface border-error flex items-center"><span class="material-symbols-outlined text-sm mr-1">whatshot</span> PICANTE</span>
+</div>
+<div class="h-48 w-full bg-surface-container mb-4 overflow-hidden border-4 border-on-surface relative flex items-center justify-center card-image-container">
+<img class="w-full h-full object-cover filter contrast-125 saturate-50 card-image" data-alt="A stylized photo of a smash burger topped with a fried egg sunny side up, jalapeños, and melted cheese, aggressive high contrast lighting, hard black shadows, modern fast food indie editorial aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR_Cyx7w9ax6IFZKVc5Q5WdlgaFFIwUZiWQ6423JyQH_x_0UdXxLh9iMuR7hF_h7baQMg_GhbNC3l0elxMWCvEiZwRQFTOTpM3fVUduYwm1Cj59KhYb93aH4WPxVCZnGUdlSTqCbJ2dbPf9k5UkGi_-5VgR5AlJB_7_T2MPKPvFneakX4PjHX5pCJq8T4vfk3BNdjTmQ2Ob09Ocn6fHSyj5gXlmUKYcq8ldUg4A3Y2StpwqIg6uK5z">
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md uppercase glitch-hover">TORITO</h3>
+<span class="bg-on-surface text-on-primary font-headline-md px-3 py-1 border-2 border-primary hard-shadow tilt-slight-right">Q30</span>
+</div>
+<p class="font-body-md text-body-md text-secondary mb-4 h-12 overflow-hidden font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">egg_alt</span>
+                    Huevo frito, jalapeños, queso derretido.
+                </p>
+<button class="add-to-cart w-full mt-2 duct-tape-btn hard-shadow hover:hard-shadow-red" data-id="4" data-name="TORITO" data-price="30">AGREGAR AL CART</button>
+</div>
+</div>
+</section>
+<!-- Footer (Shared Component) -->
+<footer class="w-full mt-asymmetric-offset border-t-8 border-primary bg-on-surface dark:bg-surface-container-lowest flex flex-col md:flex-row justify-between items-start md:items-center px-margin-mobile md:px-margin-desktop py-12 gap-8 relative overflow-hidden">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 pointer-events-none">
+<img alt="Certified Smashed Stamp" class="w-64" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtoa4yOZ2jErctV0_eXcc0IR94lxVCSgIsPEIj4C3YJ-f88I8-MBQJ8su_eYC8ca0Fr7zoFyGmtXjZnD2bIbYO_Job6QSCEzlfQ5sEZK6RSh7NI9b7UUm9ouLxJsQFY43Zo_7Hp3E61Jfbrk-67_eoWUZEp5deXdiXtYmdXqcWAUxJsevdF8F1I1ZqkGb21_e8eaI_uXXqePi1ipPRQpty31zzAn_BfKxMPrWZoSneSD-yjnOezSwu">
+</div>
+<div class="font-headline-md text-headline-md text-surface glitch-hover z-10">
+            SMASHED
+        </div>
+<div class="flex gap-4 font-label-mono text-label-mono uppercase text-surface-variant font-bold z-10 bg-on-surface/50 p-2 rounded">
+<a class="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary" href="#">Locations</a>
+<a class="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary" href="#">Hours</a>
+<a class="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary" href="#">Contact</a>
+</div>
+<div class="font-label-mono text-label-mono uppercase text-primary font-bold bg-surface px-4 py-2 tilt-slight hard-shadow z-10">
+            ©2024 SMASHED BURGER CO. NO BULL, JUST SMASH.
+        </div>
+</footer>
+<script>
+        // Simple Cart Logic
+        let cart = [];
+        
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const cartCount = document.getElementById('cart-count');
+            
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            let count = 0;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<div class="text-center text-surface-variant font-label-mono italic mt-10">Tu carrito está vacío</div>';
+                cartCount.classList.add('hidden');
+            } else {
+                cartCount.classList.remove('hidden');
+                cart.forEach((item, index) => {
+                    total += item.price * item.quantity;
+                    count += item.quantity;
+                    
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'flex justify-between items-center bg-surface-container p-2 border-4 border-on-surface hard-shadow mb-2 tilt-slight-right';
+                    itemEl.innerHTML = `
+                        <div>
+                            <div class="font-headline-md text-xl uppercase">${item.name}</div>
+                            <div class="font-label-mono text-on-surface font-bold">Q${item.price} x ${item.quantity}</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-headline-md">Q${item.price * item.quantity}</span>
+                            <button onclick="removeFromCart(${index})" class="text-error hover:text-primary transition-colors bg-on-surface text-surface p-1 border-2 border-on-surface"><span class="material-symbols-outlined">delete</span></button>
+                        </div>
+                    `;
+                    cartItemsContainer.appendChild(itemEl);
+                });
+            }
+            
+            cartTotal.textContent = `Q${total}`;
+            cartCount.textContent = count;
+        }
+
+        window.removeFromCart = function(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.target.dataset.id;
+                const name = e.target.dataset.name;
+                const price = parseInt(e.target.dataset.price);
+                
+                const existingItem = cart.find(item => item.id === id);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({ id, name, price, quantity: 1 });
+                }
+                
+                updateCartUI();
+                
+                // Open cart on add
+                document.getElementById('cart-drawer').classList.remove('cart-closed');
+                document.getElementById('cart-overlay').classList.remove('hidden');
+                
+                // Button press effect
+                anime({
+                    targets: e.target,
+                    scale: [0.9, 1],
+                    duration: 150,
+                    easing: 'easeOutQuart'
+                });
+            });
+        });
+
+        // Cart Drawer Toggle
+        const openCartBtn = document.getElementById('open-cart');
+        const closeCartBtn = document.getElementById('close-cart');
+        const cartDrawer = document.getElementById('cart-drawer');
+        const cartOverlay = document.getElementById('cart-overlay');
+
+        function toggleCart() {
+            cartDrawer.classList.toggle('cart-closed');
+            cartOverlay.classList.toggle('hidden');
+        }
+
+        openCartBtn.addEventListener('click', toggleCart);
+        closeCartBtn.addEventListener('click', toggleCart);
+        cartOverlay.addEventListener('click', toggleCart);
+
+        // Hero CTA
+        const heroCta = document.getElementById('hero-cta');
+        heroCta.addEventListener('click', (e) => {
+             anime({
+                    targets: e.target,
+                    scale: [0.9, 1],
+                    duration: 150,
+                    easing: 'easeOutQuart'
+                });
+            document.getElementById('menu-section').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Scroll Animations - Snappier entrance
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    anime({
+                        targets: entry.target,
+                        translateX: [-20, 0],
+                        opacity: [0, 1],
+                        rotate: () => {
+                            if(entry.target.classList.contains('tilt-slight')) return '-3deg';
+                            if(entry.target.classList.contains('tilt-slight-right')) return '3deg';
+                            if(entry.target.classList.contains('tilt-heavy')) return '-7deg';
+                            if(entry.target.classList.contains('tilt-heavy-right')) return '7deg';
+                            return '0deg';
+                        },
+                        duration: 400,
+                        easing: 'easeOutExpo',
+                        delay: anime.stagger(100, {start: 50})
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.anime-item').forEach(el => {
+            el.style.opacity = 0;
+            // initial state for animation
+            el.style.transform = 'translateX(-20px)';
+            observer.observe(el);
+        });
+
+    </script>
+
+
+</body></html>
