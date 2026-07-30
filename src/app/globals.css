@@ -110,14 +110,18 @@ body {
   mix-blend-mode: multiply;
 }
 
-/* Hard shadows: solid offsets, no blur — the "paper cutout" look from DESIGN.md */
-.hard-shadow {
+/*
+ * Hard shadows: solid offsets, no blur — the "paper cutout" look from DESIGN.md.
+ * Declared with @utility (not a plain class) so Tailwind's variants compile,
+ * e.g. `hover:hard-shadow-red` — a plain CSS class would silently no-op there.
+ */
+@utility hard-shadow {
   box-shadow: 8px 8px 0px 0px var(--color-on-surface);
 }
-.hard-shadow-lg {
+@utility hard-shadow-lg {
   box-shadow: 12px 12px 0px 0px var(--color-on-surface);
 }
-.hard-shadow-red {
+@utility hard-shadow-red {
   box-shadow: 6px 6px 0px 0px var(--color-primary);
 }
 
@@ -162,4 +166,86 @@ body {
   box-shadow:
     0 0 0 3px var(--color-surface-container-lowest),
     0 0 0 6px var(--color-on-surface);
+}
+
+/* --- Hero (Feature 2) --- */
+
+/* Chromatic aberration on hover, from Stitch's glitch-hover */
+.glitch-hover {
+  position: relative;
+  display: inline-block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .glitch-hover:hover {
+    animation: chromatic 0.2s infinite;
+  }
+}
+@keyframes chromatic {
+  0% { text-shadow: -4px 0px #00ffff, 4px 0px #ff00ff; transform: translate(0, 0); }
+  33% { text-shadow: 4px 0px #00ffff, -4px 0px #ff00ff; transform: translate(1px, -1px); }
+  66% { text-shadow: -2px 2px #00ffff, 2px -2px #ff00ff; transform: translate(-1px, 1px); }
+  100% { text-shadow: -4px 0px #00ffff, 4px 0px #ff00ff; transform: translate(0, 0); }
+}
+
+/* Constant float for the static (reduced-motion / no-3D) hero fallback */
+@keyframes floatEffect {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-10px) rotate(-7deg); }
+}
+.float-constant {
+  animation: floatEffect 4s ease-in-out infinite;
+}
+
+/* CTA pulse + shine sweep */
+@keyframes pulseCTA {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+.pulse-cta {
+  animation: pulseCTA 2s infinite;
+}
+.cta-shine {
+  position: absolute;
+  inset: 0 auto 0 -60%;
+  width: 45%;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transition: left 0.6s ease;
+}
+.cta-shine-trigger:hover .cta-shine {
+  left: 115%;
+}
+
+/* Scroll cue bounce */
+@keyframes scrollCue {
+  0% { transform: translateY(0); opacity: 0.35; }
+  45% { transform: translateY(9px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 0.35; }
+}
+.scroll-cue {
+  animation: scrollCue 2.1s ease-in-out infinite;
+}
+
+/* Marquee ticker */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 22s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-constant,
+  .pulse-cta,
+  .scroll-cue,
+  .marquee-track {
+    animation: none;
+  }
 }

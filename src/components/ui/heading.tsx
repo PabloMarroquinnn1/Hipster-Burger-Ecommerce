@@ -1,4 +1,4 @@
-import { type ElementType, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 const sizes = {
@@ -8,7 +8,7 @@ const sizes = {
 } as const;
 
 type HeadingProps = {
-  as?: ElementType;
+  as?: "h1" | "h2" | "h3";
   size?: keyof typeof sizes;
   className?: string;
   children: ReactNode;
