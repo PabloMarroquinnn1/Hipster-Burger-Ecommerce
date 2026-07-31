@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { StencilBadge, PriceMedallion } from "@/components/ui/badge";
 import { cn } from "@/lib/cn";
@@ -46,10 +47,14 @@ export function ProductCard({ item, index }: ProductCardProps) {
 
       {item.variant === "image" && (
         <div className="-m-6 mb-0 [perspective:1000px] overflow-hidden border-b-4 border-on-surface relative">
-          <div className="h-48 w-full bg-gradient-to-br from-primary-container to-on-surface flex items-center justify-center transition-transform duration-500 group-hover:[transform:scale(1.05)_rotateX(5deg)_rotateY(-5deg)]">
-            <span className="font-heading text-headline-md text-on-primary/70 uppercase">
-              {item.name}
-            </span>
+          <div className="h-48 w-full bg-on-surface relative transition-transform duration-500 group-hover:[transform:scale(1.05)_rotateX(5deg)_rotateY(-5deg)]">
+            <Image
+              src="/images/cheeseburger-cutout.png"
+              alt={`${item.name}: hamburguesa con queso derretido`}
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="object-contain p-2"
+            />
           </div>
           <div className="absolute left-4 bottom-3 flex items-center gap-2 bg-on-surface/85 text-surface px-3 py-1.5 font-label text-label-mono uppercase tracking-widest">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
