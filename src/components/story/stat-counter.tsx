@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { animate, useInView } from "framer-motion";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 type StatCounterProps = {
   value: number;
@@ -9,18 +10,18 @@ type StatCounterProps = {
   label: string;
 };
 
-function useCountUp(target: number, active: boolean) {
+function useCountUp(target: number, active: boolean, reduced: boolean) {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
     if (!active) return;
     const controls = animate(0, target, {
-      duration: 1.2,
+      duration: reduced ? 0 : 1.2,
       ease: [0.22, 1, 0.36, 1],
       onUpdate: (latest) => setValue(Math.round(latest)),
     });
     return () => controls.stop();
-  }, [active, target]);
+  }, [active, target, reduced]);
 
   return value;
 }
@@ -28,7 +29,8 @@ function useCountUp(target: number, active: boolean) {
 export function StatCounter({ value, suffix = "", label }: StatCounterProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const display = useCountUp(value, isInView);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const display = useCountUp(value, isInView, prefersReducedMotion);
 
   return (
     <div ref={ref}>

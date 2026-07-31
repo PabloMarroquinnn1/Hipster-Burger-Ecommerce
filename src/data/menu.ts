@@ -73,8 +73,8 @@ export const MENU_ITEMS: MenuItem[] = [
     eta: "~12 min",
   },
   {
-    id: "la-trama",
-    name: "La Trama",
+    id: "contrabando",
+    name: "Contrabando",
     price: 45,
     category: "Especial",
     description:

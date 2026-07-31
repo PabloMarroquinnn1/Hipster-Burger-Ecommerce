@@ -232,20 +232,46 @@ body {
   animation: scrollCue 2.1s ease-in-out infinite;
 }
 
-/* Marquee ticker */
+/*
+ * Marquee ticker: a constant-speed strip, not a decorative loop — kept
+ * moving even under prefers-reduced-motion (unlike the float/pulse/scroll
+ * effects below), same treatment as the hero 3D's rotation.
+ */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
 .marquee-track {
-  animation: marquee 22s linear infinite;
+  animation: marquee 26s linear infinite;
+}
+.marquee-strip {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 48px,
+    black calc(100% - 48px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 48px,
+    black calc(100% - 48px),
+    transparent 100%
+  );
+}
+.hazard-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-primary) 0 14px,
+    var(--color-on-surface) 14px 28px
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
   .float-constant,
   .pulse-cta,
-  .scroll-cue,
-  .marquee-track {
+  .scroll-cue {
     animation: none;
   }
 }
