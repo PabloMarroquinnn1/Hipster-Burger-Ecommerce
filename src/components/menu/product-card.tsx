@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { StencilBadge, PriceMedallion } from "@/components/ui/badge";
 import { cn } from "@/lib/cn";
 import { useCartStore } from "@/stores/cart-store";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import type { MenuItem } from "@/data/menu";
 
 const TILTS = ["tilt-slight-right", "tilt-slight", "tilt-heavy-right", "tilt-heavy"];
@@ -18,13 +19,18 @@ type ProductCardProps = {
 export function ProductCard({ item, index }: ProductCardProps) {
   const tilt = TILTS[index % TILTS.length];
   const addItem = useCartStore((state) => state.addItem);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.4, delay: (index % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      transition={{
+        duration: prefersReducedMotion ? 0 : 0.4,
+        delay: prefersReducedMotion ? 0 : (index % 3) * 0.08,
+        ease: [0.22, 1, 0.36, 1],
+      }}
       className={cn(
         "group relative flex flex-col gap-4 bg-surface-container-lowest border-4 border-on-surface p-6",
         "hard-shadow hover:hard-shadow-red hover:-translate-x-1 hover:-translate-y-1",

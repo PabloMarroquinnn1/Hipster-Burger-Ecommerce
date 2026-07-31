@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Work_Sans, Space_Grotesk } from "next/font/google";
 import { GrainOverlay } from "@/components/ui/grain-overlay";
+import { ScrollProgressIndicator } from "@/components/ui/scroll-progress-indicator";
 import { CartDrawer } from "@/components/cart/cart-drawer";
 import { CartHydrator } from "@/components/cart/cart-hydrator";
 import "./globals.css";
@@ -41,6 +42,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-body text-body-md text-on-surface">
         <GrainOverlay />
+        <ScrollProgressIndicator />
         <CartHydrator />
         {children}
         <CartDrawer />

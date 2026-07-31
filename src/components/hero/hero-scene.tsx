@@ -22,13 +22,15 @@ function BurgerFallback() {
 
 export function HeroScene({ enable3d = true }: { enable3d?: boolean }) {
   const prefersReducedMotion = usePrefersReducedMotion();
+  // Narrow viewports fall back to CSS for performance (WebGL on low-power
+  // phones), not for reduced-motion — that only stops the rotation below,
+  // it doesn't replace the 3D model with the flatter static fallback.
   const isDesktopViewport = useMediaQuery("(min-width: 768px)");
-
-  const use3d = enable3d && !prefersReducedMotion && isDesktopViewport;
+  const use3d = enable3d && isDesktopViewport;
 
   return (
     <div className="absolute inset-0 flex items-center justify-center">
-      {use3d ? <BurgerCanvas /> : <BurgerFallback />}
+      {use3d ? <BurgerCanvas spinSpeed={prefersReducedMotion ? 0 : 1} /> : <BurgerFallback />}
     </div>
   );
 }
