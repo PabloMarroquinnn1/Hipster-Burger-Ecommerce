@@ -1,28 +1,17 @@
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { StencilBadge } from "@/components/ui/badge";
 import { AnimatedHeadline } from "./animated-headline";
-import { HeroScene } from "./hero-scene";
 import { Marquee } from "./marquee";
 
 export function HeroSection() {
   return (
     <section
       id="top"
-      className="relative w-full min-h-[80vh] flex flex-col overflow-hidden border-b-8 border-on-surface bg-primary text-on-primary"
+      className="relative w-full overflow-hidden border-b-8 border-on-surface bg-primary text-on-primary"
     >
-      <HeroScene />
-
-      {/* Darken the right side so text stays legible over the 3D burger */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(120% 90% at 78% 45%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.45) 100%)",
-        }}
-      />
-
-      <div className="relative z-10 flex-1 flex items-center px-margin-mobile md:px-margin-desktop py-16">
-        <div className="w-full max-w-2xl flex flex-col gap-6">
+      <div className="relative z-10 px-margin-mobile md:px-margin-desktop py-16 md:py-20 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
+        <div className="flex flex-col gap-6">
           <div className="inline-flex w-fit items-center gap-2 bg-on-surface px-4 py-2 font-label text-label-mono uppercase tracking-widest">
             <span className="w-2 h-2 rounded-full bg-surface animate-pulse" />
             <span>Guatemala · Smash Burgers</span>
@@ -35,8 +24,9 @@ export function HeroSection() {
           />
 
           <p className="max-w-[46ch] text-body-lg text-on-primary/90">
-            Smash burgers hechas a mano en plancha caliente: bordes crujientes, pan tostado en
-            mantequilla y nada de vueltas. Servimos hasta que se acabe la carne del día.
+            Carne molida a diario, aplastada en plancha ardiendo hasta que el borde se pone
+            crujiente y oscuro. Sin fórmulas raras, sin carne congelada: la que no se vende hoy,
+            no se sirve mañana.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -58,21 +48,33 @@ export function HeroSection() {
             </Button>
           </div>
         </div>
+
+        <div className="relative">
+          <div className="tilt-slight-right relative aspect-[4/5] sm:aspect-square rounded-[28px] overflow-hidden border-4 border-on-surface hard-shadow-lg">
+            <Image
+              src="/images/hero-hamburger.jpg"
+              alt="Smash burger recién hecho, con queso derretido y borde crujiente"
+              fill
+              sizes="(min-width: 1024px) 40vw, (min-width: 640px) 60vw, 90vw"
+              className="object-cover"
+              priority
+            />
+          </div>
+          <div className="absolute -bottom-6 -left-4 sm:-left-8">
+            <StencilBadge className="tilt-heavy-right">Est. 2019</StencilBadge>
+          </div>
+        </div>
       </div>
 
       <a
         href="#menu"
-        className="relative z-10 self-center mb-7 flex flex-col items-center gap-2 text-on-primary/85 hover:text-on-primary font-label text-label-mono uppercase tracking-[0.24em]"
+        className="relative z-10 self-center mx-auto mb-7 flex flex-col items-center gap-2 text-on-primary/85 hover:text-on-primary font-label text-label-mono uppercase tracking-[0.24em] w-fit"
       >
         <span>Bajá y elegí</span>
         <span className="scroll-cue grid place-items-center w-9 h-9 rounded-full border-2 border-on-primary/60 text-sm">
           ↓
         </span>
       </a>
-
-      <div className="absolute bottom-24 right-6 md:right-10 z-10">
-        <StencilBadge className="tilt-heavy-right">Est. 2019</StencilBadge>
-      </div>
 
       <Marquee />
     </section>
