@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Work_Sans, Space_Grotesk } from "next/font/google";
 import { GrainOverlay } from "@/components/ui/grain-overlay";
+import { CartDrawer } from "@/components/cart/cart-drawer";
+import { CartHydrator } from "@/components/cart/cart-hydrator";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -39,7 +41,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-body text-body-md text-on-surface">
         <GrainOverlay />
+        <CartHydrator />
         {children}
+        <CartDrawer />
       </body>
     </html>
   );

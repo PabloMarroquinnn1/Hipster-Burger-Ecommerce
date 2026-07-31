@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Menu, ShoppingBag, X } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { selectCartCount, useCartStore } from "@/stores/cart-store";
 
 const NAV_LINKS = [
   { href: "#menu", label: "Menú" },
@@ -12,7 +13,8 @@ const NAV_LINKS = [
 
 export function Header() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const cartCount = 0;
+  const cartCount = useCartStore(selectCartCount);
+  const openCart = useCartStore((state) => state.openCart);
 
   return (
     <header className="sticky top-0 z-50 bg-surface border-b-[6px] border-on-surface">
@@ -48,6 +50,7 @@ export function Header() {
 
         <button
           type="button"
+          onClick={openCart}
           className="relative text-on-surface hover:text-primary transition-colors"
           aria-label="Abrir carrito"
         >

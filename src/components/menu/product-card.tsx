@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { StencilBadge, PriceMedallion } from "@/components/ui/badge";
 import { cn } from "@/lib/cn";
+import { useCartStore } from "@/stores/cart-store";
 import type { MenuItem } from "@/data/menu";
 
 const TILTS = ["tilt-slight-right", "tilt-slight", "tilt-heavy-right", "tilt-heavy"];
@@ -16,6 +17,7 @@ type ProductCardProps = {
 
 export function ProductCard({ item, index }: ProductCardProps) {
   const tilt = TILTS[index % TILTS.length];
+  const addItem = useCartStore((state) => state.addItem);
 
   return (
     <motion.article
@@ -99,7 +101,12 @@ export function ProductCard({ item, index }: ProductCardProps) {
         <span className="font-label text-label-mono uppercase text-on-surface-variant">
           {item.eta}
         </span>
-        <Button type="button" variant="primary" className="px-4 py-2 text-xs">
+        <Button
+          type="button"
+          variant="primary"
+          className="px-4 py-2 text-xs"
+          onClick={() => addItem({ id: item.id, name: item.name, price: item.price })}
+        >
           + Agregar
         </Button>
       </div>
