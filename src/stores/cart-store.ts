@@ -8,13 +8,35 @@ export type CartLine = {
   quantity: number;
 };
 
+export type OrderSnapshot = {
+  id: string;
+  lines: CartLine[];
+  subtotal: number;
+  deliveryFee: number;
+  total: number;
+  placedAt: number;
+};
+
+export type CartView = "cart" | "tracking" | "invoice";
+
 export const DELIVERY_FEE = 15;
 export const FREE_DELIVERY_FROM = 100;
+
+function computeTotals(lines: CartLine[]) {
+  const subtotal = lines.reduce((sum, line) => sum + line.price * line.quantity, 0);
+  const deliveryFee = subtotal === 0 ? 0 : subtotal >= FREE_DELIVERY_FROM ? 0 : DELIVERY_FEE;
+  return { subtotal, deliveryFee, total: subtotal + deliveryFee };
+}
+
+function generateOrderId() {
+  return `${Math.floor(1000 + Math.random() * 9000)}`;
+}
 
 type CartState = {
   lines: CartLine[];
   isOpen: boolean;
-  confirmed: boolean;
+  view: CartView;
+  lastOrder: OrderSnapshot | null;
   openCart: () => void;
   closeCart: () => void;
   addItem: (item: { id: string; name: string; price: number }) => void;
@@ -22,6 +44,9 @@ type CartState = {
   decrementItem: (id: string) => void;
   removeItem: (id: string) => void;
   checkout: () => void;
+  showInvoice: () => void;
+  backToCart: () => void;
+  startNewOrder: () => void;
 };
 
 export const useCartStore = create<CartState>()(
@@ -29,10 +54,11 @@ export const useCartStore = create<CartState>()(
     (set) => ({
       lines: [],
       isOpen: false,
-      confirmed: false,
+      view: "cart",
+      lastOrder: null,
 
       openCart: () => set({ isOpen: true }),
-      closeCart: () => set({ isOpen: false, confirmed: false }),
+      closeCart: () => set({ isOpen: false }),
 
       addItem: (item) =>
         set((state) => {
@@ -42,7 +68,7 @@ export const useCartStore = create<CartState>()(
                 line.id === item.id ? { ...line, quantity: line.quantity + 1 } : line,
               )
             : [...state.lines, { ...item, quantity: 1 }];
-          return { lines, isOpen: true, confirmed: false };
+          return { lines, isOpen: true, view: "cart" };
         }),
 
       incrementItem: (id) =>
@@ -62,7 +88,24 @@ export const useCartStore = create<CartState>()(
       removeItem: (id) =>
         set((state) => ({ lines: state.lines.filter((line) => line.id !== id) })),
 
-      checkout: () => set({ confirmed: true }),
+      checkout: () =>
+        set((state) => {
+          if (state.lines.length === 0) return {};
+          const { subtotal, deliveryFee, total } = computeTotals(state.lines);
+          const order: OrderSnapshot = {
+            id: generateOrderId(),
+            lines: state.lines,
+            subtotal,
+            deliveryFee,
+            total,
+            placedAt: Date.now(),
+          };
+          return { lastOrder: order, lines: [], view: "tracking" };
+        }),
+
+      showInvoice: () => set({ view: "invoice" }),
+      backToCart: () => set({ view: "cart" }),
+      startNewOrder: () => set({ view: "cart", lastOrder: null }),
     }),
     {
       name: "smashed-cart",
@@ -79,13 +122,6 @@ export const useCartStore = create<CartState>()(
 export const selectCartCount = (state: CartState) =>
   state.lines.reduce((sum, line) => sum + line.quantity, 0);
 
-export const selectSubtotal = (state: CartState) =>
-  state.lines.reduce((sum, line) => sum + line.price * line.quantity, 0);
-
-export const selectDeliveryFee = (state: CartState) => {
-  const subtotal = selectSubtotal(state);
-  if (subtotal === 0) return 0;
-  return subtotal >= FREE_DELIVERY_FROM ? 0 : DELIVERY_FEE;
-};
-
-export const selectTotal = (state: CartState) => selectSubtotal(state) + selectDeliveryFee(state);
+export const selectSubtotal = (state: CartState) => computeTotals(state.lines).subtotal;
+export const selectDeliveryFee = (state: CartState) => computeTotals(state.lines).deliveryFee;
+export const selectTotal = (state: CartState) => computeTotals(state.lines).total;
