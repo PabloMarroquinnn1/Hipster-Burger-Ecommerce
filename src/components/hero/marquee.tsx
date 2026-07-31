@@ -3,6 +3,7 @@ const MENU_ITEMS = [
   "Bacon Cheese",
   "Classic Cheese",
   "Torito",
+  "Triple Smash",
   "La Trama",
 ];
 
