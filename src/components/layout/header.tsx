@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Menu, ShoppingBag, X } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { GlitchText } from "@/components/ui/glitch-text";
 import { selectCartCount, useCartStore } from "@/stores/cart-store";
 
 const NAV_LINKS = [
@@ -33,7 +34,7 @@ export function Header() {
           href="#top"
           className="font-heading text-headline-md md:text-headline-lg text-primary tracking-widest uppercase"
         >
-          Smashed
+          <GlitchText>Smashed</GlitchText>
         </a>
 
         <nav className="hidden md:flex items-center gap-8 font-label text-label-bold uppercase tracking-widest">
