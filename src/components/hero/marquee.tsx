@@ -4,14 +4,14 @@ const MENU_ITEMS = [
   "Classic Cheese",
   "Torito",
   "Triple Smash",
-  "La Trama",
+  "Contrabando",
 ];
 
 function Track() {
   return (
-    <span className="flex items-center gap-8 pr-8 font-heading text-headline-md uppercase tracking-widest text-surface">
+    <span className="flex items-center gap-10 pr-10 font-heading text-headline-md uppercase tracking-widest text-surface">
       {MENU_ITEMS.map((item) => (
-        <span key={item} className="flex items-center gap-8">
+        <span key={item} className="flex items-center gap-10">
           {item}
           <span className="text-primary">★</span>
         </span>
@@ -22,11 +22,15 @@ function Track() {
 
 export function Marquee() {
   return (
-    <div className="relative z-10 bg-on-surface border-t-[3px] border-surface overflow-hidden py-3">
-      <div className="marquee-track flex w-max">
-        <Track />
-        <Track />
+    <div className="relative z-10">
+      <div className="hazard-stripes h-2" aria-hidden="true" />
+      <div className="marquee-strip bg-on-surface overflow-hidden py-4">
+        <div className="marquee-track flex w-max">
+          <Track />
+          <Track />
+        </div>
       </div>
+      <div className="hazard-stripes h-2" aria-hidden="true" />
     </div>
   );
 }
